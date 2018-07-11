@@ -42,10 +42,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-//- (void)setPost:(Post *)post {
-//    _post = post;
-
-
 
     
 //}

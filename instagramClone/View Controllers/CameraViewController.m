@@ -8,13 +8,13 @@
 
 #import "CameraViewController.h"
 
+
 @interface CameraViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *selectImageLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *postImage;
 @property (weak, nonatomic) IBOutlet UITextField *postCaption;
 
-
+- (IBAction)didTapCameraRoll:(id)sender;
 - (IBAction)didTapImage:(id)sender;
 - (IBAction)didTapCancel:(id)sender;
 - (IBAction)didTapShare:(id)sender;
@@ -25,9 +25,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    
+    [self.view addGestureRecognizer:tap];
 }
 
-- (void) getImage {
+-(void)dismissKeyboard
+{
+    [self.postCaption resignFirstResponder];
+}
+
+- (void) getCamera {
     
     UIImagePickerController *imagePickerVC = [UIImagePickerController new];
     imagePickerVC.delegate = self;
@@ -45,6 +54,16 @@
     }
 }
 
+- (void) getPhotoLibrary {
+    
+    UIImagePickerController *imagePickerVC = [UIImagePickerController new];
+    imagePickerVC.delegate = self;
+    imagePickerVC.allowsEditing = YES;
+    imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
+}
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     
     // Get the image captured by the UIImagePickerController
@@ -56,6 +75,7 @@
     
     // Dismiss UIImagePickerController to go back to your original view controller
     [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,11 +93,13 @@
 }
 */
 
+- (IBAction)didTapCameraRoll:(id)sender {
+    [self getPhotoLibrary];
+    
+}
+
 - (IBAction)didTapImage:(id)sender {
-    [self getImage];
-    self.selectImageLabel.alpha = 0;
-    
-    
+    [self getCamera];
 }
 
 - (IBAction)didTapCancel:(id)sender {
@@ -99,9 +121,12 @@
             }
 
         }];
-        [self performSegueWithIdentifier:@"sharedSegue" sender:nil];
-        
+
+       
+
     }
+    
+     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (UIImage *)resizeImage:(UIImage *)image withSize:(CGSize)size {

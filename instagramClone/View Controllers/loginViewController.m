@@ -30,69 +30,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)registerUser {
-    // initialize a user object
-    PFUser *newUser = [PFUser user];
-    
-    // set user properties
-    newUser.username = self.usernameText.text;
-    newUser.password = self.passwordText.text;
-    
-    if ([self.usernameText.text isEqual:@""]) {
-        
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                       message:@"No username inserted"
-                                                                preferredStyle:(UIAlertControllerStyleAlert)];
-        
-        // create an OK action
-        UIAlertAction *usernameAlert = [UIAlertAction actionWithTitle:@"Ok"
-                                                                style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * _Nonnull action) {
-                                                                  // handle response here.
-                                                              }];
-        // add the OK action to the alert controller
-        NSLog(@"got hereeeeee");
-        [alert addAction:usernameAlert];
-        
-        [self presentViewController:alert animated:YES completion:^{
-            // optional code for what happens after the alert controller has finished presenting
-        }];
-        
-    }
-    else if ([self.passwordText.text isEqual:@""]) {
-        
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error"
-                                                                       message:@"No password inserted"
-                                                                preferredStyle:(UIAlertControllerStyleAlert)];
-        
-        // create an OK action
-        UIAlertAction *passwordAlert = [UIAlertAction actionWithTitle:@"Ok"
-                                                                style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * _Nonnull action) {
-                                                                  // handle response here.
-                                                              }];
-        // add the OK action to the alert controller
-        [alert addAction:passwordAlert];
-        
-        [self presentViewController:alert animated:YES completion:^{
-            // optional code for what happens after the alert controller has finished presenting
-        }];
-        
-    }
-    else {
-        // call sign up function on the object
-        [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
-            if (error != nil) {
-                NSLog(@"Error: %@", error.localizedDescription);
-            } else {
-                NSLog(@"User registered successfully");
-                
-                // manually segue to logged in view
-                [self performSegueWithIdentifier:@"loggedSegue" sender:nil];
-            }
-        }];
-    }
-}
 
 - (void)loginUser {
     NSString *username = self.usernameText.text;
@@ -123,7 +60,7 @@
 */
 
 - (IBAction)didTapSignUp:(id)sender {
-    [self registerUser];
+//    [self registerUser];
 }
 
 - (IBAction)didTapLogin:(id)sender {

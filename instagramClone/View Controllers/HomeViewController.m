@@ -35,6 +35,8 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
+    [self.tableView reloadData];
 
     self.timelinePosts = [[NSMutableArray alloc] init];
     

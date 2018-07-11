@@ -7,6 +7,8 @@
 //
 
 #import "Post.h"
+#import "DateTools.h"
+
 
 @implementation Post
 
@@ -17,6 +19,7 @@
 @dynamic image;
 @dynamic likeCount;
 @dynamic commentCount;
+@dynamic createdAt;
 
 + (nonnull NSString *)parseClassName {
     return @"Post";
@@ -48,6 +51,27 @@
     }
     
     return [PFFile fileWithName:@"image.png" data:imageData];
+}
+
+
+- (NSString *) creatingTimestamp {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    // Configure the input format to parse the date string
+    formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
+    
+    NSString *createdAtString = @"";
+    NSTimeInterval secondsBetween = [[NSDate date] timeIntervalSinceDate:self.createdAt];
+    if (secondsBetween <= 3600 * 12) {
+        createdAtString = self.createdAt.timeAgoSinceNow;
+    }
+    else {
+        // Configure output format
+        formatter.dateStyle = NSDateFormatterShortStyle;
+        formatter.timeStyle = NSDateFormatterNoStyle;
+        // Convert Date to String
+        createdAtString = [formatter stringFromDate:self.createdAt];
+    }
+    return createdAtString;
 }
 
 @end

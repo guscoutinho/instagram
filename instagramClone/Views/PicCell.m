@@ -7,6 +7,7 @@
 //
 
 #import "PicCell.h"
+#import "DateTools.h"
 
 @implementation PicCell
 
@@ -25,16 +26,31 @@
     _post = post;
     
     self.likesLabel.text = [NSString stringWithFormat:@"%@ Likes", post.likeCount];
-    self.username.text = post.author.username;
     
+    // bold username + description at same label
+    NSString *strTextView = [NSString stringWithFormat:@"%@ %@", post.author.username, post.caption];
+    NSString *bold =[NSString stringWithFormat:@"%@", post.author.username];
     
-//    self.picDescription.text = [NSString stringWithFormat:@"%@ %@", post.author.username, post.caption];
-
-    self.picDescription.text = post.caption;
+    NSRange rangeBold = [strTextView rangeOfString:bold];
+    
+    UIFont *fontText = [UIFont boldSystemFontOfSize:13];
+    NSDictionary *dictBoldText = [NSDictionary dictionaryWithObjectsAndKeys:fontText, NSFontAttributeName, nil];
+    
+    NSMutableAttributedString *mutAttrTextViewString = [[NSMutableAttributedString alloc] initWithString:strTextView];
+    [mutAttrTextViewString setAttributes:dictBoldText range:rangeBold];
+    
+    [self.picDescription setAttributedText:mutAttrTextViewString];
     
     self.picImage.file = post.image;
     [self.picImage loadInBackground];
+    
+    self.timestamp.text = [self.post creatingTimestamp];
+    
+
+
 }
+
+
 
 
 @end

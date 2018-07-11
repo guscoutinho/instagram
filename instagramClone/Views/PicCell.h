@@ -19,6 +19,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (weak, nonatomic) IBOutlet UIButton *replyButton;
+@property (weak, nonatomic) IBOutlet UILabel *timestamp;
 
 @property (strong, nonatomic) Post *post;
 
