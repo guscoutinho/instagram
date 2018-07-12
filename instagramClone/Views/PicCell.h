@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Post.h"
 #import "ParseUI.h"
+#import "DateTools.h"
 
 @interface PicCell : UITableViewCell
 
@@ -16,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet PFImageView *picImage;
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *username;
+@property (weak, nonatomic) IBOutlet UIImageView *userPicture;
 
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (weak, nonatomic) IBOutlet UIButton *replyButton;

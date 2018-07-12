@@ -9,6 +9,7 @@ target 'instagramClone' do
   pod 'Parse'
   pod 'ParseUI'
   pod 'DateTools'
+  pod 'SVPullToRefresh'
 
   target 'instagramCloneTests' do
     inherit! :search_paths
