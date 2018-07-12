@@ -25,16 +25,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
-    self.detailsUserName.text = self.post.author.username;
-    self.detailsLikesLabel.text = [NSString stringWithFormat:@"%@ Likes", self.post.likeCount];
-    self.detailsUserNameBottom.text = self.post.author.username;
-    self.detailsMessage.text = self.post.caption;
-    
-    self.detailsPostPhoto.file = self.post.image;
-//    self.detailsPostPhoto.layer.cornerRadius = self.detailsPostPhoto.frame.size.height/2;
-
-    [self.detailsPostPhoto loadInBackground];
+    [self getData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,9 +33,23 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+- (void) getData {
+    self.detailsLikesLabel.text = [NSString stringWithFormat:@"%@ Likes", self.post.likeCount];
+    self.detailsUserName.text = self.post.author.username;
+    self.detailsUserNameBottom.text = self.post.author.username;
+    self.detailsMessage.text = self.post.caption;
+    self.detailsPostPhoto.file = self.post.image;
+    //    self.detailsPostPhoto.layer.cornerRadius = self.detailsPostPhoto.frame.size.height/2;
+    [self.detailsPostPhoto loadInBackground];
     
-//}
+    if ([self.post likedByCurrent]) {
+        [self.detailsFavoriteButton setImage:[UIImage imageNamed:@"red"] forState:UIControlStateNormal];
+    }
+    else {
+        [self.detailsFavoriteButton setImage:[UIImage imageNamed:@"fav"] forState:UIControlStateNormal];
+    }
+}
+
 
 /*
 #pragma mark - Navigation

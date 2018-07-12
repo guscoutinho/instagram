@@ -18,6 +18,7 @@
 @dynamic caption;
 @dynamic image;
 @dynamic likeCount;
+@dynamic likedBy;
 @dynamic commentCount;
 @dynamic createdAt;
 
@@ -32,6 +33,7 @@
     newPost.author = [PFUser currentUser];
     newPost.caption = caption;
     newPost.likeCount = @(0);
+    newPost.likedBy = [[NSMutableArray alloc] init];
     newPost.commentCount = @(0);
     
     [newPost saveInBackgroundWithBlock: completion];
@@ -72,6 +74,10 @@
         createdAtString = [formatter stringFromDate:self.createdAt];
     }
     return createdAtString;
+}
+
+- (BOOL) likedByCurrent {
+    return [self.likedBy containsObject:PFUser.currentUser.objectId];
 }
 
 @end

@@ -44,8 +44,7 @@
     [super viewDidLoad];
     
     self.collectionView.dataSource = self;
-    self.collectionView.delegate = self;
-    
+    self.collectionView.delegate = self;    
     self.allPosts = [[NSMutableArray alloc] init];
     
     [self getUserInformation];
@@ -58,20 +57,27 @@
 
 }
 
+- (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    ProfileCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ProfileCollectionViewCell" forIndexPath:indexPath];
+    cell.post = self.allPosts[indexPath.row];
+    return cell;
+}
+
+- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.allPosts.count;
+}
     
 - (void) getUserInformation {
-    self.user = PFUser.currentUser;
+    if (!self.user) {
+        self.user = PFUser.currentUser;
+    }
     self.profileImage.layer.cornerRadius = self.profileImage.frame.size.height/2;
     self.profileUser.text = self.user.username;
+    self.viewForButton.layer.cornerRadius = self.editProfileButton.frame.size.height/2;
+    [self.viewForButton.layer setBorderWidth:1.0];
     [self.viewForButton.layer setBorderColor: [[UIColor grayColor] CGColor]];
-    [self.viewForButton.layer setBorderWidth: 1.0];
 
-
-    
-    
-    
 //    self.profileDescription.text = self.user.description;
-    
     
 }
 
@@ -105,15 +111,14 @@
             for (PFObject *post in posts) {
                 [self.allPosts addObject:post];
             }
+            self.profilePostsCount.text = [NSString stringWithFormat:@"%d", self.allPosts.count];
             [self.collectionView reloadData];
-            
         }
         else {
             NSLog(@"%@", error.localizedDescription);
         }
     }];
 }
-
 
 #pragma mark - Navigation
 
@@ -133,15 +138,6 @@
 }
 
 - (IBAction)didTapSettings:(id)sender {
-}
-- (nonnull __kindof UICollectionViewCell *)collectionView:(nonnull UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    ProfileCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ProfileCollectionViewCell" forIndexPath:indexPath];
-    cell.post = self.allPosts[indexPath.row];
-    return cell;
-}
-
-- (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.allPosts.count;
 }
 
 @end

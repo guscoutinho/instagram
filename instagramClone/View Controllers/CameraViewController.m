@@ -27,7 +27,6 @@
     [super viewDidLoad];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
-    
     [self.view addGestureRecognizer:tap];
 }
 
@@ -69,14 +68,8 @@
     // Get the image captured by the UIImagePickerController
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
     UIImage *editedImage = info[UIImagePickerControllerEditedImage];
-    
     CGSize size = CGSizeMake(400, 400);
-    
-    // Do something with the images (based on your use case)
     self.postImage.image = [self resizeImage:editedImage withSize:size];
-                            
-                                
-    // Dismiss UIImagePickerController to go back to your original view controller
     [self dismissViewControllerAnimated:YES completion:nil];
     
 }
@@ -124,9 +117,6 @@
             }
 
         }];
-
-       
-
     }
     [self.parentViewController.tabBarController setSelectedIndex:0];
     [self dismissViewControllerAnimated:YES completion:nil];

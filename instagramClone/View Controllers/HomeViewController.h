@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Post.h"
 
 @interface HomeViewController : UIViewController
 

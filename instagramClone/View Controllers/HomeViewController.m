@@ -13,8 +13,9 @@
 #import "PicCell.h"
 #import "DetailsViewController.h"
 #import "Infinite.h"
+#import "ProfileInstagramViewController.h"
 
-@interface HomeViewController () <UITableViewDataSource, UITabBarDelegate, UIScrollViewDelegate>
+@interface HomeViewController () <UITableViewDataSource, UITabBarDelegate, UIScrollViewDelegate, PicCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *timelinePosts;
@@ -58,49 +59,15 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void) performInfiniteScroll {
-    
-    // Set up Infinite Scroll loading indicator
-    CGRect frame = CGRectMake(0, self.tableView.contentSize.height, self.tableView.bounds.size.width, Infinite.defaultHeight);
-    self.loadingMoreView = [[Infinite alloc] initWithFrame:frame];
-    self.loadingMoreView.hidden = true;
-    [self.tableView addSubview:self.loadingMoreView];
-
-    UIEdgeInsets insets = self.tableView.contentInset;
-    insets.bottom += Infinite.defaultHeight;
-    self.tableView.contentInset = insets;
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    PicCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PicCell" forIndexPath:indexPath];
+    cell.post = self.timelinePosts[indexPath.row];
+    cell.delegate = self;
+    return cell;
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if(!self.isMoreDataLoading){
-        // Calculate the position of one screen length before the bottom of the results
-        int scrollViewContentHeight = self.tableView.contentSize.height;
-        int scrollOffsetThreshold = scrollViewContentHeight - self.tableView.bounds.size.height;
-        
-        // When the user has scrolled past the threshold, start requesting
-        if(scrollView.contentOffset.y > scrollOffsetThreshold && self.tableView.isDragging) {
-            self.isMoreDataLoading = true;
-            
-            // Code to load more results
-            [self fetchMorePosts:@50];
-        }
-    }
-}
-
-- (void)logoutUser {
-    [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
-        // PFUser.current() will now be nil
-    }];
-}
-
-- (IBAction)didTapLogout:(id)sender {
-    [self logoutUser];
-    
-    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    HomeViewController *homeViewController = [storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
-    appDelegate.window.rootViewController = homeViewController;
-    
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.timelinePosts.count;
 }
 
 - (void) fetchPosts {
@@ -130,7 +97,51 @@
     [self.tableView reloadData];
 }
 
--(void)fetchMorePosts:(NSNumber *) post_count {
+- (void)logoutUser {
+    [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+        // PFUser.current() will now be nil
+    }];
+}
+
+- (IBAction)didTapLogout:(id)sender {
+    [self logoutUser];
+    
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    HomeViewController *homeViewController = [storyboard instantiateViewControllerWithIdentifier:@"loginViewController"];
+    appDelegate.window.rootViewController = homeViewController;
+    
+}
+
+- (void) performInfiniteScroll {
+    // Set up Infinite Scroll loading indicator
+    CGRect frame = CGRectMake(0, self.tableView.contentSize.height, self.tableView.bounds.size.width, Infinite.defaultHeight);
+    self.loadingMoreView = [[Infinite alloc] initWithFrame:frame];
+    self.loadingMoreView.hidden = true;
+    [self.tableView addSubview:self.loadingMoreView];
+
+    UIEdgeInsets insets = self.tableView.contentInset;
+    insets.bottom += Infinite.defaultHeight;
+    self.tableView.contentInset = insets;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if(!self.isMoreDataLoading){
+        // Calculate the position of one screen length before the bottom of the results
+        int scrollViewContentHeight = self.tableView.contentSize.height;
+        int scrollOffsetThreshold = scrollViewContentHeight - self.tableView.bounds.size.height;
+        
+        // When the user has scrolled past the threshold, start requesting
+        if(scrollView.contentOffset.y > scrollOffsetThreshold && self.tableView.isDragging) {
+            self.isMoreDataLoading = true;
+            
+            // Code to load more results
+            [self fetchMorePosts:@50];
+        }
+    }
+}
+
+- (void)fetchMorePosts:(NSNumber *) post_count {
     // construct PFQuery
     PFQuery *postQuery = [Post query];
     [postQuery orderByDescending:@"createdAt"];
@@ -157,31 +168,23 @@
     [self.tableView reloadData];
 }
 
-- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    PicCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PicCell" forIndexPath:indexPath];
-    cell.post = self.timelinePosts[indexPath.row];
-    return cell;
+- (void)showProfileScreen:(PFUser *)user {
+    [self performSegueWithIdentifier:@"profileSegue" sender:user];
+    
 }
 
-- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.timelinePosts.count;
+#pragma mark - Navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier  isEqualToString: @"detailsController"]) {
+        PicCell *tappedCell = sender;
+        DetailsViewController *detailsViewController = [segue destinationViewController];
+        detailsViewController.post = tappedCell.post;
+    }
+    if ([segue.identifier isEqualToString:@"profileSegue"]) {
+        ProfileInstagramViewController *profileInstagramViewController;
+        PFUser *user = sender;
+        profileInstagramViewController.user = user;
+    }
 }
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Deselect the row which was tapped
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
- #pragma mark - Navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-     if ([segue.identifier  isEqual: @"detailsController"]) {
-         UITableView *tappedCell = sender;
-         NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
-         Post *post = self.timelinePosts[indexPath.row];
-         DetailsViewController *detailsViewController = [segue destinationViewController];
-         detailsViewController.post = post;
-     }
- }
 
 @end

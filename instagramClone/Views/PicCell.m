@@ -13,6 +13,10 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    
+    UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapUserPicture)];
+    [self.profiletView addGestureRecognizer:singleFingerTap];
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -38,8 +42,59 @@
     
     self.username.text = post.author.username;
     self.picImage.file = post.image;
-    [self.picImage loadInBackground];    
+    [self.picImage loadInBackground];
+    self.userPicture.layer.cornerRadius = self.userPicture.frame.size.height/2;
     self.timestamp.text = [self.post creatingTimestamp];
+    self.likesLabel.text = [NSString stringWithFormat:@"%@ Likes", post.likeCount];
+    self.favoriteButton.selected = [post likedByCurrent];
+    
+    if ([self.post likedByCurrent]) {
+        [self.favoriteButton setImage:[UIImage imageNamed:@"red"] forState:UIControlStateNormal];
+    }
+    else {
+        [self.favoriteButton setImage:[UIImage imageNamed:@"fav"] forState:UIControlStateNormal];
+    }
+}
+
+- (void) refreshView {
+    self.favoriteButton.selected = [self.post likedByCurrent];
+    self.likesLabel.text = [NSString stringWithFormat:@"%@ Likes", self.post.likeCount];
+}
+
+- (void) didTapUserPicture {
+    [self.delegate showProfileScreen:self.post.author];
+}
+
+- (void) toggleFavorite {
+    PFQuery *postQuery = [Post query];
+    [postQuery includeKey:@"author"];
+    
+    // fetch data asynchronously
+    [postQuery getObjectInBackgroundWithId:self.post.objectId block:^(PFObject * _Nullable object, NSError * _Nullable error) {
+        if (object) {
+            Post *post = (Post *)object;
+            if ([post likedByCurrent]) {
+                [post incrementKey:@"likeCount" byAmount:@(-1)];
+                [post removeObject:PFUser.currentUser.objectId forKey:@"likedBy"];
+                [self.favoriteButton setImage:[UIImage imageNamed:@"fav"] forState:UIControlStateNormal];
+            }
+            else {
+                [post incrementKey:@"likeCount" byAmount:@(1)];
+                [post addObject:PFUser.currentUser.objectId forKey:@"likedBy"];
+                [self.favoriteButton setImage:[UIImage imageNamed:@"red"] forState:UIControlStateNormal];
+            }
+            [post saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                if (succeeded) {
+                    self.post = post;
+                    [self refreshView];
+                }
+            }];
+        }
+    }];
+}
+
+- (IBAction)didTapFavorite:(id)sender {
+    [self toggleFavorite];
 }
 
 @end
