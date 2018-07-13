@@ -10,6 +10,7 @@
 #import "Post.h"
 #import "ParseUI.h"
 #import "DateTools.h"
+#import "User.h"
 
 @protocol PicCellDelegate
 
@@ -23,8 +24,8 @@
 @property (weak, nonatomic) IBOutlet PFImageView *picImage;
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *username;
-@property (weak, nonatomic) IBOutlet UIImageView *userPicture;
 @property (weak, nonatomic) IBOutlet UIView *profiletView;
+@property (weak, nonatomic) IBOutlet PFImageView *profileImage;
 
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 @property (weak, nonatomic) IBOutlet UIButton *replyButton;

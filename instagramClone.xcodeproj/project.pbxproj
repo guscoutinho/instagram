@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		54BCEF3720F82A61004D0F7E /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 54BCEF3620F82A61004D0F7E /* User.m */; };
+		54BCEF3A20F82A92004D0F7E /* AddProfilePictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54BCEF3920F82A92004D0F7E /* AddProfilePictureViewController.m */; };
+		54BCEF3D20F9192A004D0F7E /* CustomCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 54BCEF3C20F9192A004D0F7E /* CustomCameraViewController.m */; };
 		54F7D55420F415FC00DAC502 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 54F7D55320F415FC00DAC502 /* AppDelegate.m */; };
 		54F7D55A20F415FC00DAC502 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54F7D55820F415FC00DAC502 /* Main.storyboard */; };
 		54F7D55C20F415FD00DAC502 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54F7D55B20F415FD00DAC502 /* Assets.xcassets */; };
@@ -52,6 +55,12 @@
 		478E7C70761A62A5F35A2DBC /* libPods-instagramCloneTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-instagramCloneTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FD61CF8B7C470218ABE4970 /* Pods-instagramCloneUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-instagramCloneUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-instagramCloneUITests/Pods-instagramCloneUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		548790EEADEB0EE37E833074 /* Pods-instagramCloneUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-instagramCloneUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-instagramCloneUITests/Pods-instagramCloneUITests.release.xcconfig"; sourceTree = "<group>"; };
+		54BCEF3520F82A61004D0F7E /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		54BCEF3620F82A61004D0F7E /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		54BCEF3820F82A92004D0F7E /* AddProfilePictureViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddProfilePictureViewController.h; sourceTree = "<group>"; };
+		54BCEF3920F82A92004D0F7E /* AddProfilePictureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddProfilePictureViewController.m; sourceTree = "<group>"; };
+		54BCEF3B20F9192A004D0F7E /* CustomCameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomCameraViewController.h; sourceTree = "<group>"; };
+		54BCEF3C20F9192A004D0F7E /* CustomCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomCameraViewController.m; sourceTree = "<group>"; };
 		54F7D54F20F415FC00DAC502 /* instagramClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = instagramClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		54F7D55220F415FC00DAC502 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		54F7D55320F415FC00DAC502 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -190,6 +199,10 @@
 				54F7D5A320F6706200DAC502 /* MainTabViewController.m */,
 				54F7D5A820F6C44E00DAC502 /* ProfileInstagramViewController.h */,
 				54F7D5A920F6C44E00DAC502 /* ProfileInstagramViewController.m */,
+				54BCEF3820F82A92004D0F7E /* AddProfilePictureViewController.h */,
+				54BCEF3920F82A92004D0F7E /* AddProfilePictureViewController.m */,
+				54BCEF3B20F9192A004D0F7E /* CustomCameraViewController.h */,
+				54BCEF3C20F9192A004D0F7E /* CustomCameraViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -201,6 +214,8 @@
 				54F7D59720F4366900DAC502 /* PicCell.m */,
 				54F7D59920F5296100DAC502 /* Post.h */,
 				54F7D59A20F5296100DAC502 /* Post.m */,
+				54BCEF3520F82A61004D0F7E /* User.h */,
+				54BCEF3620F82A61004D0F7E /* User.m */,
 				54F7D5AB20F6C79E00DAC502 /* ProfileCollectionViewCell.h */,
 				54F7D5AC20F6C79E00DAC502 /* ProfileCollectionViewCell.m */,
 				54F7D5AE20F7140200DAC502 /* Infinite.h */,
@@ -468,9 +483,12 @@
 				54F7D59220F4335600DAC502 /* CameraViewController.m in Sources */,
 				54F7D56220F415FD00DAC502 /* main.m in Sources */,
 				54F7D5AA20F6C44E00DAC502 /* ProfileInstagramViewController.m in Sources */,
+				54BCEF3A20F82A92004D0F7E /* AddProfilePictureViewController.m in Sources */,
 				54F7D58C20F420F400DAC502 /* loginViewController.m in Sources */,
 				54F7D55420F415FC00DAC502 /* AppDelegate.m in Sources */,
 				54F7D58F20F42C9200DAC502 /* HomeViewController.m in Sources */,
+				54BCEF3720F82A61004D0F7E /* User.m in Sources */,
+				54BCEF3D20F9192A004D0F7E /* CustomCameraViewController.m in Sources */,
 				54F7D59B20F5296100DAC502 /* Post.m in Sources */,
 				54F7D59E20F58B9100DAC502 /* DetailsViewController.m in Sources */,
 				54F7D5AD20F6C79E00DAC502 /* ProfileCollectionViewCell.m in Sources */,

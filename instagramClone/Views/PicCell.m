@@ -28,6 +28,8 @@
 - (void)setPost:(Post *)post {
     _post = post;
     
+    User *user = [User currentUser];
+    
     self.likesLabel.text = [NSString stringWithFormat:@"%@ Likes", post.likeCount];
     
     // bold username + description at same label
@@ -39,11 +41,23 @@
     NSMutableAttributedString *mutAttrTextViewString = [[NSMutableAttributedString alloc] initWithString:strTextView];
     [mutAttrTextViewString setAttributes:dictBoldText range:rangeBold];
     [self.picDescription setAttributedText:mutAttrTextViewString];
+//    
+//    if (self.post.author.profilePic == nil) {
+//
+//    }
+//    else {
+//
+//    }
     
     self.username.text = post.author.username;
     self.picImage.file = post.image;
     [self.picImage loadInBackground];
-    self.userPicture.layer.cornerRadius = self.userPicture.frame.size.height/2;
+
+    self.profileImage.file = post.author.profilePic;
+    [self.profileImage loadInBackground];
+
+    self.profileImage.layer.cornerRadius = self.profileImage.frame.size.height/2;
+    
     self.timestamp.text = [self.post creatingTimestamp];
     self.likesLabel.text = [NSString stringWithFormat:@"%@ Likes", post.likeCount];
     self.favoriteButton.selected = [post likedByCurrent];
@@ -75,12 +89,12 @@
             Post *post = (Post *)object;
             if ([post likedByCurrent]) {
                 [post incrementKey:@"likeCount" byAmount:@(-1)];
-                [post removeObject:PFUser.currentUser.objectId forKey:@"likedBy"];
+                [post removeObject:(User *)PFUser.currentUser.objectId forKey:@"likedBy"];
                 [self.favoriteButton setImage:[UIImage imageNamed:@"fav"] forState:UIControlStateNormal];
             }
             else {
                 [post incrementKey:@"likeCount" byAmount:@(1)];
-                [post addObject:PFUser.currentUser.objectId forKey:@"likedBy"];
+                [post addObject:(User *)PFUser.currentUser.objectId forKey:@"likedBy"];
                 [self.favoriteButton setImage:[UIImage imageNamed:@"red"] forState:UIControlStateNormal];
             }
             [post saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {

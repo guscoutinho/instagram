@@ -168,7 +168,7 @@
     [self.tableView reloadData];
 }
 
-- (void)showProfileScreen:(PFUser *)user {
+- (void)showProfileScreen:(User *)user {
     [self performSegueWithIdentifier:@"profileSegue" sender:user];
     
 }
@@ -182,7 +182,7 @@
     }
     if ([segue.identifier isEqualToString:@"profileSegue"]) {
         ProfileInstagramViewController *profileInstagramViewController;
-        PFUser *user = sender;
+        User *user = sender;
         profileInstagramViewController.user = user;
     }
 }

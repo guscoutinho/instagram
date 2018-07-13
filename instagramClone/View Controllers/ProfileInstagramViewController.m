@@ -54,6 +54,7 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     [self fetchPosts];
+    [self refreshView];
 
 }
 
@@ -63,21 +64,29 @@
     return cell;
 }
 
+- (void) refreshView {
+    self.user = (User *) PFUser.currentUser;
+    self.profileImage.file = self.user.profilePic;
+    [self.profileImage loadInBackground];
+}
+
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.allPosts.count;
 }
     
 - (void) getUserInformation {
     if (!self.user) {
-        self.user = PFUser.currentUser;
+        self.user =  [User currentUser];
     }
+    
+    self.profileImage.file = self.user.profilePic;
     self.profileImage.layer.cornerRadius = self.profileImage.frame.size.height/2;
+    [self.profileImage loadInBackground];
     self.profileUser.text = self.user.username;
     self.viewForButton.layer.cornerRadius = self.editProfileButton.frame.size.height/2;
     [self.viewForButton.layer setBorderWidth:1.0];
     [self.viewForButton.layer setBorderColor: [[UIColor grayColor] CGColor]];
 
-//    self.profileDescription.text = self.user.description;
     
 }
 
@@ -135,6 +144,7 @@
 }
 
 - (IBAction)didTapEditProfile:(id)sender {
+    [self performSegueWithIdentifier:@"afterButtonSegue" sender:nil];
 }
 
 - (IBAction)didTapSettings:(id)sender {

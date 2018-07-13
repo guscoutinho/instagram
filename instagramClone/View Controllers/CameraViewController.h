@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "Post.h"
 #import "Parse.h"
+#import "MBProgressHUD.h"
 
 @interface CameraViewController : UIViewController
 

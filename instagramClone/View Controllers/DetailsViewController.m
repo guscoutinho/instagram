@@ -9,13 +9,13 @@
 #import "DetailsViewController.h"
 
 @interface DetailsViewController ()
-@property (weak, nonatomic) IBOutlet UIImageView *detailsUserImage;
 @property (weak, nonatomic) IBOutlet UILabel *detailsUserName;
 @property (weak, nonatomic) IBOutlet PFImageView *detailsPostPhoto;
 @property (weak, nonatomic) IBOutlet UIButton *detailsFavoriteButton;
 @property (weak, nonatomic) IBOutlet UILabel *detailsLikesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *detailsUserNameBottom;
 @property (weak, nonatomic) IBOutlet UILabel *detailsMessage;
+@property (weak, nonatomic) IBOutlet PFImageView *detailsProfilePic;
 
 @end
 
@@ -38,8 +38,10 @@
     self.detailsUserName.text = self.post.author.username;
     self.detailsUserNameBottom.text = self.post.author.username;
     self.detailsMessage.text = self.post.caption;
+    
+    self.detailsProfilePic.layer.cornerRadius = self.detailsProfilePic.frame.size.height/2;
+    self.detailsProfilePic.file = self.post.author.profilePic;
     self.detailsPostPhoto.file = self.post.image;
-    //    self.detailsPostPhoto.layer.cornerRadius = self.detailsPostPhoto.frame.size.height/2;
     [self.detailsPostPhoto loadInBackground];
     
     if ([self.post likedByCurrent]) {

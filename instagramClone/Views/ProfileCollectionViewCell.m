@@ -7,11 +7,14 @@
 //
 
 #import "ProfileCollectionViewCell.h"
+#import "User.h"
 
 @implementation ProfileCollectionViewCell
 
 - (void)setPost:(Post *)post {
     _post = post;
+    
+    User *user = [User currentUser];
     
     self.profileImages.file = post.image;
     [self.profileImages loadInBackground];

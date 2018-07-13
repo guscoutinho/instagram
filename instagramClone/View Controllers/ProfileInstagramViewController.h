@@ -12,7 +12,7 @@
 
 @interface ProfileInstagramViewController : UIViewController
 
-@property (strong, nonatomic) PFUser *user;
+@property (strong, nonatomic) User *user;
 @property (strong, nonatomic) Post *post;
 
 

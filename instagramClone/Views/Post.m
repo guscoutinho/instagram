@@ -30,7 +30,7 @@
     
     Post *newPost = [Post new];
     newPost.image = [self getPFFileFromImage:image];
-    newPost.author = [PFUser currentUser];
+    newPost.author = (User *)[PFUser currentUser];
     newPost.caption = caption;
     newPost.likeCount = @(0);
     newPost.likedBy = [[NSMutableArray alloc] init];
@@ -77,7 +77,7 @@
 }
 
 - (BOOL) likedByCurrent {
-    return [self.likedBy containsObject:PFUser.currentUser.objectId];
+    return [self.likedBy containsObject:(User *)PFUser.currentUser.objectId];
 }
 
 @end
